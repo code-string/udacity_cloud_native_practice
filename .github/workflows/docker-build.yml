@@ -22,7 +22,7 @@ jobs:
 #     Use the public `checkout` action  in version v2 to checkout the existing code in the repository
       -
         name: Checkout
-        uses: action/checkout@v2
+        uses: actions/checkout@v2
 
       -
         name: Set up Python ${{ matrix.python-version }}
