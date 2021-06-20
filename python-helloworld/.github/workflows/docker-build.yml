@@ -1,0 +1,43 @@
+# name of the workflow
+name: Python-helloworld
+
+# control when the action runs.
+# this workflow will be triggered on push or pull request to the main branch
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+#    define the steps you want to execute
+    steps:
+#     Use the public `checkout` action  in version v2 to checkout the existing code in the repository
+      -
+        name: Checkout
+        uses: action/checkout@v2
+
+      -
+        name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      -
+        name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      -
+        name: Test pytest
+        run: |
+          pytest
